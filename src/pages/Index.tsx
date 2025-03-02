@@ -1,5 +1,6 @@
 
 import { ChapterSelection } from "@/components/ChapterSelection";
+import { Toaster } from "@/components/ui/toaster";
 
 const Index = () => {
   return (
@@ -18,6 +19,7 @@ const Index = () => {
       <main className="py-12">
         <ChapterSelection />
       </main>
+      <Toaster />
     </div>
   );
 };
