@@ -1,8 +1,8 @@
 
-import { ChapterSelection } from "@/components/ChapterSelection";
+import AdminQuestionManager from "@/components/AdminQuestionManager";
 import { Toaster } from "@/components/ui/toaster";
 
-const Index = () => {
+const Admin = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <nav className="bg-white border-b border-gray-200">
@@ -10,18 +10,20 @@ const Index = () => {
           <div className="flex justify-between h-16">
             <div className="flex items-center">
               <span className="text-xl font-semibold text-sage-600">
-                JEE Main Practice
+                JEE Main Practice - Admin
               </span>
             </div>
           </div>
         </div>
       </nav>
       <main className="py-12">
-        <ChapterSelection />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <AdminQuestionManager />
+        </div>
       </main>
       <Toaster />
     </div>
   );
 };
 
-export default Index;
+export default Admin;
