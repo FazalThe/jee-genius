@@ -7,8 +7,6 @@ import { Check, Book, ChevronDown, ChevronUp, Clock, Hash } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { useToast } from "@/components/ui/use-toast";
 
 interface Subtopic {
   id: string;
@@ -203,8 +201,6 @@ export function ChapterSelection() {
     subjects.reduce((acc, subject) => ({ ...acc, [subject.id]: subject.defaultQuestions }), {})
   );
   const [testDuration, setTestDuration] = useState<number>(180); // in minutes
-  const [isGenerating, setIsGenerating] = useState<boolean>(false);
-  const { toast } = useToast();
 
   const toggleSubjectExpand = (subjectId: string) => {
     setExpandedSubjects((prev) =>
@@ -294,67 +290,13 @@ export function ChapterSelection() {
     }
   };
 
-  const handleGenerateTest = async () => {
-    if (selectedTopics.length === 0) {
-      toast({
-        title: "No topics selected",
-        description: "Please select at least one topic to generate a test.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (getTotalQuestions() === 0) {
-      toast({
-        title: "No questions selected",
-        description: "Please specify the number of questions for at least one subject.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setIsGenerating(true);
-
-    try {
-      // Simulate fetching questions from database
-      // In a real implementation, this would be an API call to your backend
-      await new Promise(resolve => setTimeout(resolve, 1500));
-
-      // In a real implementation, you would navigate to the test page here
-      // with the selected topics and test configuration
-      console.log("Generating test with selected topics:", selectedTopics);
-      console.log("Test configuration:", {
-        questionsPerSubject,
-        testDuration,
-        totalQuestions: getTotalQuestions()
-      });
-
-      toast({
-        title: "Test Generated Successfully",
-        description: `Created a ${testDuration}-minute test with ${getTotalQuestions()} questions from ${getTotalSelectedTopics()} topics.`,
-      });
-
-      // Here you would navigate to the test page
-      // Example: navigate("/test", { state: { selectedTopics, questionsPerSubject, testDuration } });
-      
-    } catch (error) {
-      console.error("Error generating test:", error);
-      toast({
-        title: "Failed to generate test",
-        description: "There was an error while generating your test. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsGenerating(false);
-    }
-  };
-
   return (
     <div className="w-full max-w-5xl mx-auto p-6 space-y-8 animate-fade-in">
       <div className="text-center space-y-4">
-        <h1 className="text-3xl md:text-4xl font-semibold text-gray-900">
-          Create Your JEE Main Practice Test
-        </h1>
+        <Badge className="bg-sage-100 text-sage-700 hover:bg-sage-200 transition-colors">
+          Step 1 of 2
+        </Badge>
+        <h1 className="text-3xl md:text-4xl font-semibold text-gray-900">Create Your JEE Main Practice Test</h1>
         <p className="text-gray-600 max-w-lg mx-auto">
           Select topics, customize question count, and set the time limit for your practice test.
         </p>
@@ -524,18 +466,11 @@ export function ChapterSelection() {
             </div>
           </Card>
 
-          <Alert className="bg-blue-50 border-blue-200">
-            <AlertDescription>
-              Questions for your test will be pulled from our database based on your selected topics. Each test is unique!
-            </AlertDescription>
-          </Alert>
-
           <Button
-            disabled={getTotalSelectedTopics() === 0 || getTotalQuestions() === 0 || isGenerating}
-            onClick={handleGenerateTest}
+            disabled={getTotalSelectedTopics() === 0 || getTotalQuestions() === 0}
             className="w-full bg-sage-500 hover:bg-sage-600 text-white py-3 rounded-lg transition-colors"
           >
-            {isGenerating ? "Generating Test..." : "Generate Test"}
+            Generate Test
           </Button>
           
           <div className="text-center text-sm text-gray-500">
